@@ -7,8 +7,9 @@ import math
 
 def calculo_disparo(x,y ):
 	
-	distancia = math.sqrt((x**2 + y**2)**2)
-	return distancia
+	distancia = math.sqrt((x**2 + y**2))
+	resultado = round(distancia,2)
+	return resultado
 
 
 
@@ -44,7 +45,7 @@ def mejor_disparo(dist1, dist2, dist3):
 
 def promedio(dist1, dist2, dist3):
 
-	promedio = (dist1  + dist2 + dist3) /3
+	promedio = (dist1  + dist2 + dist3) //3
 	
 	return promedio 
 	

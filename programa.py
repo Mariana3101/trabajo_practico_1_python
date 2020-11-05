@@ -18,6 +18,11 @@ def carga_datos():
 			# Se declara un diccionario vacio
 			participante = {}
 			participante["numero"]= int(input("Ingrese el numero del participante: "))
+			
+			# Excepcion para que no permita ingresar participantes mayor a 999
+			if participante["numero"] > 999:
+				raise Exception("Debe ingresar un numero entre 0 y 999 ")
+			
 			participante["nombre"] = input("Ingrese el nombre: ")
 					
 			
@@ -44,14 +49,14 @@ def carga_datos():
 			
 			
 			#coordenadas dist2
-			
+			print('---------------------------')
 			print("Coordenadas Distancia 2 \n")
 			print('---------------------------')
 			dist2_x = float(input("Ingrese coordenada x: "))
 			dist2_y = float(input("Ingrese coordenada y: "))
 			
 			# coordenadas dist3
-			
+			print('---------------------------')
 			print("Coordenadas Distancia 3 \n")
 			print('---------------------------')
 			dist3_x = float(input("Ingrese coordenada x: "))
@@ -63,7 +68,7 @@ def carga_datos():
 			
 			# Se guarda la distancia al origen
 			
-			# verificar la formula de distancia###########################################################################
+
 			
 			participante["Disp1"] = funciones.calculo_disparo(dist1_x, dist1_y )
 			participante["Disp2"] = funciones.calculo_disparo(dist2_x, dist2_y)
@@ -76,11 +81,12 @@ def carga_datos():
 			
 			participante["PromDisp"] = funciones.promedio(participante["Disp1"] ,participante["Disp2"],participante["Disp3"])
 			
+		
 			
-			
-			
+		
+		
 		except:
-			print("Debe ingresar un numero entre 0 y 999 ")
+			print("Debe ingresar un numero entre 0 y 999 ") 
 			
 			continue
 			
@@ -89,17 +95,20 @@ def carga_datos():
 		salir = input("Desea salir ? ingrese si o no \n")
 		print("")
 		
-	#Aca muestra el listado
-	for elemento in listado:
-		print(elemento)
 	
 	
 	return listado
 	
 
 
+#F
+'''
+Mostrar el podio de los ganadores (los 3 primeros) en función del Mejor Disparo (Nro Participante, Nombre, Apellido y Mejor disparo).
+Se pide informar por pantalla y en un archivo de texto.
+'''
 
 def podio(listado):
+	# Ordenamiento por MejorDisp
 	intercambios = True
 	numPasada = len(listado)-1
 	cont = 0
@@ -114,44 +123,40 @@ def podio(listado):
 		numPasada = numPasada - 1
 		
 	
-	primeros_puestos = listado[0:3]
+	primeros_puestos = (listado[0:3])
 	
+	print("Los tres primeros puestos son \n")
 	
-	print("Podio: ")
-	'''
-	f = open ("podio.txt", "w")
-	
-	for a in primeros_puestos:
-		f.write(a)
-	f.close()
-	'''
+	#Imprime los tres primeros puestos
 	for i in range(len(primeros_puestos)):
 		print("Numero: ",listado[i]["numero"],"nombre: ",listado[i]["nombre"],"Mejor Disparo: ", listado[i]["MejorDisp"])
-	
-	
-	# guardarlo en un archivo 
-	
-	MyFile=open('podio.txt','w')
+		
+	return listado
 
-	MyFile.writelines(primeros_puestos)
+#F	
+# se guardan los tres primeros elementos
+def guardar_podio(listado):
+
+	
+	primeros_puestos = []
+	
+	primeros_puestos.append(listado[0:3])
+	
+	
+	MyFile=open('output.txt','w')
+	
+	MyFile.write(str(listado))
+	
 	MyFile.close()
 	
-	return listado
-	'''
-	Mostrar el podio de los ganadores (los 3 primeros) en función del Mejor Disparo (Nro Participante, Nombre, Apellido y Mejor disparo). 
-	Se pide informar por pantalla y en un archivo de texto.
 	
 	
-	Opcional: Mejorar el punto a) asumiendo que se puede dar el caso en que dos participantes tengan el mismo Mejor Disparo,
-	ordenar también por mejor promedio.
-
-	'''
-
-
-	
-
+#G
+'''
+Informar quien fue el último (Nro Participante, Nombre, Apellido y Mejor disparo).
+'''
 def ultimo_participante(listado): # el de la peor puntuacion
-	# hacer lista con los elementos que necesito ???? #####################################################
+	#ordenamiento para tener el  participante con peor puntuacion
 	intercambios = True
 	numPasada = len(listado)-1
 	cont = 0
@@ -166,26 +171,27 @@ def ultimo_participante(listado): # el de la peor puntuacion
 		numPasada = numPasada - 1
 	
 	#accede al ultimo elemento de listado
-	ultimo = listado[-1]
-	
-	print("ultimo",ultimo)
-	# no funciona cuando la lista tiene mas de un elemento
-	#print("Ultimo participante.Nombre: " + ultimo["nombre"][0] + " Apellido: " + ultimo["apellido"][0] + "Mejor Disparo" + ultimo[0])
-	
-	
-	'''
-	Informar quien fue el último (Nro Participante, Nombre, Apellido y Mejor disparo).
-	'''
-
 
 	
-def cantidad_hombres(listado):# si funciona
+	ultimo_participante= "Numero {}, Nombre {}, Mejor Disparo {}".format(listado[-1]["numero"],listado[-1]["nombre"],listado[-1]["MejorDisp"])
+	return ultimo_participante
+	
+
+
+#H - I
+'''
+Informar cuantos participantes formaron parte del concurso.
+Informar cuantos hombres formaron parte del concurso.
+
+'''
+def cantidad_participantes(listado):
 	#cantidad participantes
 	cantidad_participantes = len(listado)
 	
+	return cantidad_participantes
 	
+def cantidad_hombres(listado):
 	
-	#cantidad hombres
 	cantidad_hombres = 0
 
 	for elemento in listado:
@@ -193,15 +199,12 @@ def cantidad_hombres(listado):# si funciona
 			cantidad_hombres = cantidad_hombres + 1
 			
 	
+	return cantidad_hombres
 
-
-	print("Cantidad de participantes: ", cantidad_participantes)
-	print("Cantidad de hombres: ", cantidad_hombres)
-	
-	return cantidad_participantes, cantidad_hombres
-	
-
-
+#J
+'''
+Informar edad promedio de las mujeres.
+'''
 def edad_mujeres(listado):
 	#Informar edad promedio de las mujeres.
 	
@@ -220,37 +223,40 @@ def edad_mujeres(listado):
 		promedio_mujeres = suma /len(listado_mujeres)
 			
 
-	print("Promedio edad mujeres: ", promedio_mujeres)
+	return promedio_mujeres
 	
-	
-def listadoPorEdad(listado): # ordena de mayor a menor!!!!!!!!!!!! pero no de menor a mayor
-	#Mostrar el listado de todos los participantes ordenados por edad.
+#K
+'''
+Mostrar el listado de todos los participantes ordenados por edad.
+'''
+
+def listadoPorEdad(listado): # ordena de menor a mayor
 	
 	intercambios = True
 	numPasada = len(listado)-1
 	cont = 0
 	
-	while numPasada < 0 and intercambios:
+	while numPasada > 0 and intercambios:
 		intercambios = False
 		for k in range(numPasada):
 			cont += 1
-			if listado[k]["edad"] < listado[k + 1]["edad"]:
+			if listado[k]['edad'] > listado[k + 1]['edad']:
 				intercambios = True
 				listado[k], listado[k + 1]= listado[k + 1], listado[k]
 		numPasada = numPasada - 1
 		
-	print("Listado por Edad: ")
-	for i in range(len(listado)):
-		
-		print("Numero: ",listado[i]["numero"],"nombre: ",listado[i]["nombre"],"Edad: ", listado[i]["edad"])
 	
 	return listado
 		
 	
 
 
+#L 
+'''
+Informar el promedio de todos los disparos.
 
-def promedio_general(listado):# si funciona
+'''
+def promedio_disparos(listado):# si funciona
 	
 	#promedio de todos los disparos
 	# hago lista de los disp1, disp2, disp3
@@ -264,34 +270,45 @@ def promedio_general(listado):# si funciona
 		lista.append(elemento["Disp3"])
 		
 		suma_total = sum(lista)
-		promedio_disparos = suma_total /len(lista)
+		promedio_disparos = round((suma_total /len(lista)),2)
 	
-	#Mostrar los participantes cuyo promedio de disparo sea mayor al promedio general. + de 1 !!!!!!!!!!!!!!!!!!!!!!
+	return promedio_disparos
+	
+	
+#M	
+#Mostrar los participantes cuyo promedio de disparo sea mayor al promedio general.
+def mayor_promedio(listado, promedio_disparos):
+
+
+	lista_promedios = []
 	
 	for elemento in listado:
 		if elemento["PromDisp"] > promedio_disparos:
-			print("El promedio del participante {0} es mayor  al promedio general".format(elemento["nombre"]))
+			lista_promedios.append(elemento["nombre"])
+			lista_promedios.append(elemento["apellido"])
+		    
+	return lista_promedios
+
 		
 		
-
-	print("promedio general de disparos ", promedio_disparos)
-	
-	
-	
-	
-	
-	
-
+		
+		
 resultado = carga_datos()
 print("")
 podio = podio(resultado)
 print("")
-#participantes = cantidad_hombres(resultado)
+guardar_datos_podio = guardar_podio(resultado)
 print("")
-#ultimo = ultimo_participante(resultado)
-print("")
-#edad_mujeres = edad_mujeres(resultado)
-print("")
-#suma_disp1 = promedio_general(resultado)
-print("")
-#orden = listadoPorEdad(resultado)
+ultimo_participante = print("El participante con peor disparo es: ",ultimo_participante(resultado),"\n")
+
+cantidad_participantes = print("Cantidad de participantes: ",cantidad_participantes(resultado),"\n")
+
+cantidad_hombres = print("Cantidad de hombres que participaron: ", cantidad_hombres(resultado),"\n")
+
+promedio_edad_mujeres = print("Promedio edad Mujeres: ",edad_mujeres(resultado),"\n")
+
+listado_Por_Edad = print("Listado ordenado por edad(de menor a mayor ): \n",listadoPorEdad(resultado))
+
+el_promedio_disparos = print("El promedio general de disparos es ",promedio_disparos(resultado),"\n")
+
+mayor_promedio = print("Lista de participantes con promedio de disparos mayor al promedio general \n", mayor_promedio(resultado,(promedio_disparos(resultado))))
